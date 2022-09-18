@@ -155,7 +155,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="objects"><a class="header" href="#objects">Objects</a></h1>
-<p>The background, which we have been using thus far, is very useful when the whole screen should move at once, but this is not ideal for everything.
+<p>The background is very useful when the whole screen should move at once, but this is not ideal for everything.
 For example, a cursor in a menu, NPCs and the player in a RPG, bullets in a shmup, or balls in an <em>Arkanoid</em> clone… all need to move independently of the background.
 Thankfully, the Game Boy has a feature that’s perfect for these!
 In this lesson, we will talk about <em>objects</em> (sometimes called “OBJ”).</p>
@@ -165,7 +165,8 @@ The term “sprite” has a <em>lot</em> of meanings depending on context, so, t
 </div>
 <p>Each object allows drawing one or two tiles (so 8×8 or 8×16 pixels, respectively) at any on-screen position—unlike the background, where all the tiles are drawn in a grid.
 Therefore, an object consists of its on-screen position, a tile ID (like <a href="../part1/tilemap.html">with the tilemap</a>), and some extra properties called “attributes”.
-These extra properties allow “flipping” the tile for free, for example; we’ll see more about them later.</p>
+These extra properties allow, for example, to display the tile flipped.
+We’ll see more about them later.</p>
 <p>Just like how the tilemap is stored in VRAM, objects live in a region of memory called OAM, meaning <strong>Object Attribute Memory</strong>.
 Recall from above that an object consists of:</p>
 <ul>
@@ -182,7 +183,7 @@ To stop displaying an object, we can simply put it off-screen, e.g. by setting i
 <p>These offsets are not arbitrary!
 Consider an object’s maximum size: 8 by 16 pixels.
 These offsets allow objects to be clipped by the left and top edges of the screen.
-The NES, for example, lacks such offsets—so you will notice that objects always disappear after hitting the left or top edge of the screen.</p>
+The NES, for example, lacks such offsets, so you will notice that objects always disappear after hitting the left or top edge of the screen.</p>
 </div>
 <p>Let’s discover objects by experimenting with them!</p>
 <p>First off, when the Game Boy is powered on, OAM is filled with a bunch of semi-random garbage values, which may cover the screen with some random garbage.
@@ -271,10 +272,10 @@ We’re going to wait for VBlank before changing OAM, just like we did before tu
 	jr Main
 </code></pre>
 <div class="box tip decorated">
-<div><p>🤔</p></div>
+<div><p>🤨</p></div>
 <div>
-<p>We mentioned above that the screen must be turned off to access OAM safely.
-There is another way, but it would be too complicated to explain right now, so we will talk about it later.</p>
+<p>Here, we are accessing OAM safely without turning the LCD off.
+Explaining why requires a more thorough explanation of the Game Boy’s rendering, so let’s ignore it for now.</p>
 </div>
 </div>
 <p>Now you should see the paddle moving… very quickly.
@@ -290,11 +291,6 @@ wFrameCounter: db
 <p>Now we’ll use the <code>FrameCounter</code> variable to count how many frames have passed.
 Every 10th frame we’ll move the paddle by one pixel, slowing it down to 1/6th the previous speed.
 Don’t forget that variables have a <em>random value</em> when the Game Boy starts, so we need to initialize them before using them.</p>
-<div class="box tip">
-<p>Though it may seem tempting, DO NOT set all of RAM to 0.
-This can hide bugs in your game and seriously hurts performance.
-Only initalize the memory you need, before you read it.</p>
-</div>
 <pre><code class="language-rgbasm linenos start=86">	ld a, 0
 	ld [wFrameCounter], a
 
